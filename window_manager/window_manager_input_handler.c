@@ -161,59 +161,91 @@ static si_t mask_active_by_mouse_down(union message * msg)
         window_info_iterator_clear(&iter);
     }
 
+    /*点的是原来的窗口*/
+    if(iter.win_info_ptr == global_wm.active_win_info_ptr)
+        return 0;
+
 	/* 在桌面上按下了鼠标的某个键 */
-	if(iter.app_info_ptr == NULL || iter.win_info_ptr == NULL)
+	//if(iter.app_info_ptr == NULL || iter.win_info_ptr == NULL)
+	if(iter.app_info_ptr == global_wm.desktop_app_ptr)
 	{
 		/* 原来有活动窗口 */
-		if(global_wm.active_win_info_ptr != NULL)
+		if(global_wm.active_app_info_ptr != global_wm.desktop_app_ptr && global_wm.active_win_info_ptr != NULL )
 		{
 			/* 发送激死消息给原来的活动窗口 */
 			send_window_deactivate_message(&global_wm.active_app_info_ptr->uds, msg, (si_t)global_wm.active_win_info_ptr);
 			/** 通知桌面 **/
+		/*	
 			if(NULL != global_wm.desktop_app_ptr)
 			{
 				send_window_deactivate_message(&global_wm.desktop_app_ptr->uds, NULL,
 					(si_t)object_get_root(OBJECT_POINTER(global_wm.active_win_info_ptr)));
 			}
-
+		*/	
 			/* 改变活动窗口 */
-			global_wm.active_win_info_ptr = NULL;
-			global_wm.active_app_info_ptr = NULL;
+			global_wm.active_win_info_ptr = iter.win_info_ptr;
+			global_wm.active_app_info_ptr = global_wm.desktop_app_ptr;
+			send_window_activate_message(&global_wm.active_app_info_ptr->uds, msg, (si_t)global_wm.active_win_info_ptr);
 		}
 	}
 	/* 在窗口上按下了鼠标的某个键 */
-	else if(global_wm.active_win_info_ptr != iter.win_info_ptr)
+	else
 	{
 		/* 原来有活动窗口 */
-		if(global_wm.active_win_info_ptr != NULL)
+		if(global_wm.active_app_info_ptr != global_wm.desktop_app_ptr)
 		{
-			/* 发送激死消息给原来的活动窗口 */
-			send_window_deactivate_message(&global_wm.active_app_info_ptr->uds, msg, (si_t)global_wm.active_win_info_ptr);
-			/** 通知桌面 **/
+			if(global_wm.active_win_info_ptr != NULL)
+			{
+				/* 发送激死消息给原来的活动窗口 */
+				send_window_deactivate_message(&global_wm.active_app_info_ptr->uds, msg, (si_t)global_wm.active_win_info_ptr);
+				/** 通知桌面 **/
+				/*
+				if(NULL != global_wm.desktop_app_ptr)
+				{
+					send_window_deactivate_message(&global_wm.desktop_app_ptr->uds, NULL,
+						(si_t)object_get_root(OBJECT_POINTER(global_wm.active_win_info_ptr)));
+				}
+				*/
+			}
+
+			/* 将活动窗口移动到该用户应用程序的窗口向量的尾部 */
+			vector_move_back(&(iter.app_info_ptr->window_info_vector), iter.win_index);
+
+			/* 将活动程序移动到用户应用程序向量的尾部 */
+			vector_move_back(&(global_wm.application_info_vector), iter.app_index);
+
+			/* 将活动窗口作为父控件的长子控件 */
+			object_move_first(OBJECT_POINTER(iter.win_info_ptr));
+
+			/* 改变活动窗口 */
+			global_wm.active_win_info_ptr = iter.win_info_ptr;
+			global_wm.active_app_info_ptr = iter.app_info_ptr;
+
+			send_window_activate_message(&global_wm.active_app_info_ptr->uds, msg, (si_t)iter.win_info_ptr);
+			/*
 			if(NULL != global_wm.desktop_app_ptr)
 			{
-				send_window_deactivate_message(&global_wm.desktop_app_ptr->uds, NULL,
-					(si_t)object_get_root(OBJECT_POINTER(global_wm.active_win_info_ptr)));
+				send_window_activate_message(&global_wm.desktop_app_ptr->uds, NULL, (si_t)iter.top_win_info_ptr);
 			}
+			*/
 		}
+		else{
+				/* 发送激死消息给原来的活动窗口 */
+				send_window_deactivate_message(&global_wm.active_app_info_ptr->uds, msg, (si_t)global_wm.active_win_info_ptr);
+				/* 将活动窗口移动到该用户应用程序的窗口向量的尾部 */
+				vector_move_back(&(iter.app_info_ptr->window_info_vector), iter.win_index);
 
-		/* 将活动窗口移动到该用户应用程序的窗口向量的尾部 */
-		vector_move_back(&(iter.app_info_ptr->window_info_vector), iter.win_index);
+				/* 将活动程序移动到用户应用程序向量的尾部 */
+				vector_move_back(&(global_wm.application_info_vector), iter.app_index);
 
-		/* 将活动程序移动到用户应用程序向量的尾部 */
-		vector_move_back(&(global_wm.application_info_vector), iter.app_index);
+				/* 将活动窗口作为父控件的长子控件 */
+				object_move_first(OBJECT_POINTER(iter.win_info_ptr));
 
-		/* 将活动窗口作为父控件的长子控件 */
-		object_move_first(OBJECT_POINTER(iter.win_info_ptr));
+				/* 改变活动窗口 */
+				global_wm.active_win_info_ptr = iter.win_info_ptr;
+				global_wm.active_app_info_ptr = iter.app_info_ptr;
 
-		/* 改变活动窗口 */
-		global_wm.active_win_info_ptr = iter.win_info_ptr;
-		global_wm.active_app_info_ptr = iter.app_info_ptr;
-
-		send_window_activate_message(&global_wm.active_app_info_ptr->uds, msg, (si_t)iter.win_info_ptr);
-		if(NULL != global_wm.desktop_app_ptr)
-		{
-			send_window_activate_message(&global_wm.desktop_app_ptr->uds, NULL, (si_t)iter.top_win_info_ptr);
+				send_window_activate_message(&global_wm.active_app_info_ptr->uds, msg, (si_t)iter.win_info_ptr);
 		}
 	}
 
@@ -300,11 +332,12 @@ static si_t handle_minimize_button_release(union message* msg)
 	 **/
 	send_window_deactivate_message(&global_wm.active_app_info_ptr->uds, msg, (si_t)global_wm.active_win_info_ptr);
 	/** 通知桌面 **/
+	/*
 	if(NULL != global_wm.desktop_app_ptr)
 	{
 		send_window_deactivate_message(&global_wm.desktop_app_ptr->uds, NULL, (si_t)tree->parent);
 	}
-
+*/
 	window_info_iterator_clear(&iter);
 	/* get next active window and application */
 	if(all_app_traversal_decrement(&iter, _do_find_next_active_window, tree->parent))
@@ -335,11 +368,11 @@ static si_t handle_minimize_button_release(union message* msg)
 	 * send active msg
 	 **/
 	send_window_activate_message(&global_wm.active_app_info_ptr->uds, msg, (si_t)global_wm.active_win_info_ptr);
-	if(NULL != global_wm.desktop_app_ptr)
+/*	if(NULL != global_wm.desktop_app_ptr)
 	{
 		send_window_activate_message(&global_wm.desktop_app_ptr->uds, NULL, (si_t)node);
 	}
-
+*/
 	return 0;
 }
 
@@ -785,14 +818,14 @@ si_t window_manager_input_handler(struct egui_uds* uds_ptr, addr_t arg)
 			 **/
 			if(!is_point_in_area(&message->base.cursor_position, &global_wm.work_area) && NULL != global_wm.desktop_app_ptr)
 			{
-				send_input_message(&global_wm.desktop_app_ptr->uds, message, 0);
+				//send_input_message(&global_wm.desktop_app_ptr->uds, message, 0);
 			}
 			else
 			{
 				/* 更新活动窗口 */
 				mask_active_by_mouse_down(message);
 
-				handle_desktop_press(message);
+				//handle_desktop_press(message);
 
 				handle_button_press(message);
 
@@ -808,7 +841,7 @@ si_t window_manager_input_handler(struct egui_uds* uds_ptr, addr_t arg)
 			 **/
 			if(!is_point_in_area(&message->base.cursor_position, &global_wm.work_area))
 			{
-				send_input_message(&global_wm.desktop_app_ptr->uds, message, 0);
+			//	send_input_message(&global_wm.desktop_app_ptr->uds, message, 0);
 			}
 			else
 			{
