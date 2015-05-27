@@ -151,19 +151,19 @@ si_t widget_init_with_default_style(const char *path, struct widget * w, struct 
     si_t res = 0;
 
     /* 如果widget全局样式对象尚未加载配置 */
-    /*if(!style->flag)
+    if(!style->flag)
     {
-        struct config_parser parser;*/
+        struct config_parser parser;
 
         /* 初始化配置处理器 */
-        /*if(!path || config_parser_init(path, &parser) != 0)
+        if(!path || config_parser_init(path, &parser) != 0)
         {
             EGUI_PRINT_ERROR("fail to init widget style from config file %s.", path);
             res = -1;
-        } else {*/
+        } else {
 
             /* 从配置读取各项配置,赋予style指针 */
-            /*config_parser_get_int(&parser, "area_x", &(style->area_x));
+            config_parser_get_int(&parser, "area_x", &(style->area_x));
             config_parser_get_int(&parser, "area_y", &(style->area_y));
             config_parser_get_int(&parser, "area_width", &(style->area_width));
             config_parser_get_int(&parser, "area_height", &(style->area_height));
@@ -193,13 +193,13 @@ si_t widget_init_with_default_style(const char *path, struct widget * w, struct 
 
             if(-1 == widget_init_extra_with_default_style(&parser, extra, extralen)) {
                 res = -1;
-            }*/
+            }
 
             /* 退出配置处理器 */
-            /*config_parser_exit(&parser);
+            config_parser_exit(&parser);
         }
         style->flag = 1;
-    }*/
+    }
 
     /* 用widget默认样式初始化widget各样式属性 */
     w->area.x = style->area_x;
