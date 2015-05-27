@@ -41,24 +41,28 @@ static struct color light_green = {0xcc, 0xff, 0x99, 0};
 static struct color barely_blue = {0xcb, 0xf3, 0xfb, 0};
 
 pthread_t tid;
-void *thrd_func(void *arg)
+void *thrd_func_1(void *arg)
 {
-    system("bash /home/wang/egui/_build/debug/samples/single_window");
+    system("bash /home/wang/egui/_build/debug/samples/pop_up_window");
+    pthread_exit(NULL);
+}
+
+void *thrd_func_2(void *arg)
+{
+    system("bash /home/wang/egui/_build/debug/samples/shutdown");
     pthread_exit(NULL);
 }
 
 
 si_t
-button_callback
+button_callback_1
 (void * btn,
  void * msg)
 {
-    struct window * w;
-
     switch(message_get_type(msg))
     {
         case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
-            pthread_create(&tid,NULL,thrd_func,NULL);
+            pthread_create(&tid,NULL,thrd_func_1,NULL);
             break;
 
         default:
@@ -70,6 +74,25 @@ button_callback
 
 }
 
+si_t
+button_callback_2
+(void * btn,
+ void * msg)
+{
+    switch(message_get_type(msg))
+    {
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+            pthread_create(&tid,NULL,thrd_func_2,NULL);
+            break;
+
+        default:
+            button_default_callback(btn, msg);
+            break;
+    }
+
+    return 0;
+}
+
 /*
 *     测试 button
 *     */
@@ -79,6 +102,7 @@ int main()
     si_t app_type = APPLICATION_TYPE_NORMAL;
     struct window * w = NULL;
     struct button * b = NULL;
+    struct button * c = NULL;
 
     /* 初始化用户应用程序 */
     application_init(video_access_mode, app_type, "desktop");
@@ -95,6 +119,7 @@ int main()
 
     /* 申请按钮 */
     b = button_init("click me!");
+    c = button_init("Shutdown!");
     /* 申请失败 */
     if(b == NULL)
     {
@@ -103,10 +128,21 @@ int main()
     }
     button_set_bounds(b, 50, 50, 150, 50);
     button_set_color(b, NULL, &barely_blue);
-    b->callback = button_callback;
+    b->callback = button_callback_1;
+
+    /* 申请失败 */
+    if(c == NULL)
+    {
+        application_exit();
+        return -1;
+    }
+    button_set_bounds(c, 50, 110, 150, 50);
+    button_set_color(c, NULL, &barely_blue);
+    c->callback = button_callback_2;
 
     /* 将两个按钮添加到窗口 */
     object_attach_child(OBJECT_POINTER(w), OBJECT_POINTER(b));
+    object_attach_child(OBJECT_POINTER(w), OBJECT_POINTER(c));
 
     /* 添加顶层窗口 */
     application_add_window(NULL, w);
