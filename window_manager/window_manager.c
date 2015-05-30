@@ -348,7 +348,7 @@ static si_t graph_init(char* framebuffer_path, si_t top_margin, si_t down_margin
 	struct graphics_device* gd_ptr = NULL;
 
 	/* 初始化屏幕 */
-    screen_init(framebuffer_path);
+	screen_init(framebuffer_path);
 	/* 设置颜色的限制 */
 	screen_color_limit();
 
@@ -403,7 +403,7 @@ static void *thrd_func(void *arg)
 static si_t interface_init()
 {
     pthread_t tid;
-	/*struct graphics_device* gd_ptr = NULL;
+	struct graphics_device* gd_ptr = NULL;
     gd = engine_graphics_device_init(0 ,0 , global_screen.width, global_screen.height, 255,255,0,0,7);
 	if(0 == gd)
 	{
@@ -411,8 +411,30 @@ static si_t interface_init()
 		return -1;
 	}
 	gd_ptr = (struct graphics_device*)gd;
-    engine_show_text(gd,global_screen.width/2-100,global_screen.height/2-45,"WELCOME!",8);
-    screen_flush(0,0,gd_ptr->screen.width,gd_ptr->screen.height);*/
+    engine_show_text(gd,global_screen.width/2-200,global_screen.height/2-45,"WELCOME TO EGUI",15);
+
+ 	struct point p[4];
+    p[0].x=global_screen.width/2,p[0].y=0;
+	p[1].x=0,p[1].y=global_screen.height/2;
+	p[2].x=global_screen.width/2,p[2].y=global_screen.height;
+	p[3].x=global_screen.width,p[3].y=global_screen.height/2;
+    engine_draw_polygon(gd,p,4) ;
+    screen_flush(0,0,gd_ptr->screen.width,gd_ptr->screen.height);
+    
+	sleep(1);
+	engine_draw_circle(gd,6*global_screen.width/14,9*global_screen.height/16,5);
+    screen_flush(0,0,gd_ptr->screen.width,gd_ptr->screen.height);
+
+	sleep(1);
+	engine_draw_circle(gd,7*global_screen.width/14,9*global_screen.height/16,5);
+    screen_flush(0,0,gd_ptr->screen.width,gd_ptr->screen.height);
+    
+	sleep(1);
+	engine_draw_circle(gd,8*global_screen.width/14,9*global_screen.height/16,5);
+    screen_flush(0,0,gd_ptr->screen.width,gd_ptr->screen.height);
+    
+    sleep(1);
+    //engine_clear(gd);
     pthread_create(&tid,NULL,thrd_func,NULL);
     return 0;
 }

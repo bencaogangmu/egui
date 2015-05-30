@@ -28,6 +28,7 @@
 ***/
 
 # include <stdio.h>
+# include <sys/types.h>
 # include <string.h>
 # include <unistd.h>
 #include <pthread.h>
@@ -37,113 +38,247 @@
 # include "client_lib.h"
 # include "widget.h"
 
-static struct color light_green = {0xcc, 0xff, 0x99, 0};
-static struct color barely_blue = {0xcb, 0xf3, 0xfb, 0};
+#define APP_NUMBER 6
+
+ struct color light_green = {0xcc, 0xff, 0x99, 0};
+ struct color barely_blue = {0xcb, 0xf3, 0xfb, 0};
+ struct color xue_blue = {0x77,0x7b,0xce,0};
+ struct color heavy_blue = {0x2e,0x22,0xff,0};
+ struct color friut_green = {0x8a,0xce,0x57,0};
+ struct color light_red = {0xd1,0x75,0x47,0};
 
 pthread_t tid;
-void *thrd_func_1(void *arg)
+void *sin_app(void *arg)
 {
+    system("bash /home/wang/egui/_build/debug/samples/single_window");
+    pthread_exit(NULL);
+}
+void *pop_app(void *arg){
     system("bash /home/wang/egui/_build/debug/samples/pop_up_window");
     pthread_exit(NULL);
 }
-
-void *thrd_func_2(void *arg)
-{
+void *calc_app(void *arg){
+    system("bash /home/wang/egui/_build/debug/samples/calculator/calculator");
+    pthread_exit(NULL);
+}
+void *game_app(void *arg){
+    system("bash /home/wang/egui/_build/debug/samples/chess_game");
+    pthread_exit(NULL);
+}
+void *file_app(void *arg){
+    system("bash /home/wang/egui/_build/debug/samples/file_browser/file_browser");
+    pthread_exit(NULL);
+}
+void *end_app(void *arg){
     system("bash /home/wang/egui/_build/debug/samples/shutdown");
     pthread_exit(NULL);
 }
 
-
-si_t
-button_callback_1
-(void * btn,
- void * msg)
+si_t icon_calc_callback(void * ic, void * msg)
 {
-    switch(message_get_type(msg))
-    {
-        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
-            pthread_create(&tid,NULL,thrd_func_1,NULL);
-            break;
 
-        default:
-            button_default_callback(btn, msg);
-            break;
-    }
-
-    return 0;
+	 union message * m = msg;
+	 switch(m->base.type)
+	 {
+		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+         		  pthread_create(&tid,NULL,calc_app,NULL);
+            		  break;
+		default:
+			  icon_default_callback(ic,msg);
+			  break;
+	 }
+  return 0;
 
 }
 
-si_t
-button_callback_2
-(void * btn,
- void * msg)
+si_t icon_file_callback(void * ic, void * msg)
 {
-    switch(message_get_type(msg))
-    {
-        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
-            pthread_create(&tid,NULL,thrd_func_2,NULL);
-            break;
 
-        default:
-            button_default_callback(btn, msg);
-            break;
-    }
+	 union message * m = msg;
+	 switch(m->base.type)
+	 {
+		 case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+			  pthread_create(&tid,NULL,file_app,NULL);
+			  break;
+		default:
+			  icon_default_callback(ic,msg);
+			  break;
+	 }
+  return 0;
 
-    return 0;
 }
 
+
+si_t icon_game_callback(void * ic, void * msg)
+{
+
+	 union message * m = msg;
+	 switch(m->base.type)
+	 {
+		 case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+			  pthread_create(&tid,NULL,game_app,NULL);
+			  break;
+		default:
+			  icon_default_callback(ic,msg);
+			  break;
+	 }
+  return 0;
+
+}
+
+si_t icon_sin_callback(void * ic, void * msg)
+{
+
+	 union message * m = msg;
+	 switch(m->base.type)
+	 {
+		 case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+			  pthread_create(&tid,NULL,sin_app,NULL);
+			  break;
+		default:
+			  icon_default_callback(ic,msg);
+			  break;
+	 }
+  return 0;
+
+}
+
+si_t icon_pop_callback(void * ic, void * msg)
+{
+
+	 union message * m = msg;
+	 switch(m->base.type)
+	 {
+		 case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+			  pthread_create(&tid,NULL,pop_app,NULL);
+			  break;
+		default:
+			  icon_default_callback(ic,msg);
+			  break;
+	 }
+  return 0;
+
+}
+
+si_t icon_end_callback(void * ic, void * msg)
+{
+
+	 union message * m = msg;
+	 switch(m->base.type)
+	 {
+		 case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+			  pthread_create(&tid,NULL,end_app,NULL);
+			  break;
+		default:
+			  icon_default_callback(ic,msg);
+			  break;
+	 }
+  return 0;
+
+}
+//desktop_default_callback
 /*
-*     测试 button
-*     */
+    测试 button
+*/
 int main()
 {
     si_t video_access_mode = VIDEO_ACCESS_MODE_BUFFER;
-    si_t app_type = APPLICATION_TYPE_NORMAL;
+	si_t app_type = APPLICATION_TYPE_DESKTOP;
+	si_t screen_w = 0, screen_h = 0;
     struct window * w = NULL;
-    struct button * b = NULL;
-    struct button * c = NULL;
+	struct image_view * im;
+	struct icon*  ic[APP_NUMBER];
+	int i=0;
 
     /* 初始化用户应用程序 */
     application_init(video_access_mode, app_type, "desktop");
     /* 申请窗口 */
-    w = window_init("desktop");
+    w = desktop_init("desktop");
     /* 申请失败 */
     if(w == NULL)
     {
         application_exit(); 
         return -1;
     }
-    window_set_bounds(w, 300, 100, 448, 200);
-    window_set_color(w, NULL, &light_green);
+    screen_w = get_screen_width();
+    screen_h = get_screen_height();
+	desktop_set_bounds(w, 0, 0, screen_w, screen_h);
+	desktop_set_color(w, NULL, &xue_blue);
 
-    /* 申请按钮 */
-    b = button_init("click me!");
-    c = button_init("Shutdown!");
-    /* 申请失败 */
-    if(b == NULL)
+	/* 画背景图片 */
+   im = image_view_init("/home/wang/egui/resource/icons/desktop/desktop.bmp");
+   if(im == NULL)
     {
         application_exit();
         return -1;
     }
-    button_set_bounds(b, 50, 50, 150, 50);
-    button_set_color(b, NULL, &barely_blue);
-    b->callback = button_callback_1;
+	if(NULL == im)
+	{
+		application_exit();
+		return -1;
+	}
+	image_view_set_bounds(im, 0, 30, screen_w ,screen_h+30);
 
-    /* 申请失败 */
-    if(c == NULL)
-    {
-        application_exit();
-        return -1;
+
+
+	for(i=0;i<APP_NUMBER;i++){
+		/* 申请按钮 */
+    	ic[i] = icon_init(2);
+    	/* 申请失败 */
+    	if(ic[i] == NULL)
+    	{
+        	application_exit();
+        	return -1;
+    	}
+    	ic[i]->back_color.r = 0;
+    	ic[i]->back_color.g = 100;
+    	ic[i]->back_color.b = 0;
+    	ic[i]->back_color.a = 0;
+    	icon_set_bounds(ic[i] ,30,(i+1)*100,48,48);
+    	icon_set_is_text_visiable(ic[i] ,0);
     }
-    button_set_bounds(c, 50, 110, 150, 50);
-    button_set_color(c, NULL, &barely_blue);
-    c->callback = button_callback_2;
+    /* 第一个是计算器 */
+	icon_set_text(ic[0],"calc");
+	icon_set_img_path(ic[0],"/home/wang/egui/resource/icons/calculator_big.bmp");
+	ic[0]->callback = icon_calc_callback;
 
-    /* 将两个按钮添加到窗口 */
-    object_attach_child(OBJECT_POINTER(w), OBJECT_POINTER(b));
-    object_attach_child(OBJECT_POINTER(w), OBJECT_POINTER(c));
+	/* 第二个是资源管理器 */
+	icon_set_text(ic[1],"file");
+	icon_set_img_path(ic[1],"/home/wang/egui/resource/icons/file_browser_big.bmp");
+	ic[1]->callback = icon_file_callback;	
+    
+    /* 第三个是game */
+	icon_set_text(ic[2],"game");
+	icon_set_img_path(ic[2],"/home/wang/egui/resource/icons/editerbasic_big.bmp");
+	ic[2]->callback = icon_game_callback;    
+    
+    /* 第四个是single */
+	icon_set_text(ic[3],"sin");
+	icon_set_img_path(ic[3],"/home/wang/egui/resource/icons/single_window_big.bmp");
+	ic[3]->callback = icon_sin_callback;  
+	  
+    /* 第五个是pop */
+	icon_set_text(ic[4],"pop");
+	icon_set_img_path(ic[4],"/home/wang/egui/resource/icons/multi_windows_big.bmp");
+	ic[4]->callback = icon_pop_callback;
 
+	/* 第六个是 end */
+	icon_set_text(ic[5],"end");
+	icon_set_img_path(ic[5],"/home/wang/egui/resource/icons/toplevel_child_big.bmp");
+	ic[5]->callback = icon_end_callback;	
+
+
+
+
+
+
+    /* 背景图片添加到窗口 */
+    object_attach_child(OBJECT_POINTER(w), OBJECT_POINTER(im));
+    
+    /* 将icon添加到窗口 */
+    for(i=0;i<APP_NUMBER;i++)
+    	object_attach_child(OBJECT_POINTER(im), OBJECT_POINTER(ic[i]));
+   
     /* 添加顶层窗口 */
     application_add_window(NULL, w);
     /* 设置主窗口 */
@@ -152,6 +287,4 @@ int main()
     application_exec();
 
     return 0;
-
 }
-
