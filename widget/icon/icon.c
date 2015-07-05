@@ -320,6 +320,7 @@ si_t icon_repaint(struct icon * ic)
     msg.widget_repaint.area.height = ic->area.height;
 
     icon_default_widget_repaint(ic, &msg);
+	widget_repaint(WIDGET_POINTER(ic));
 
     return 0;
 
@@ -446,5 +447,7 @@ void icon_set_bounds(struct icon* icon, si_t x, si_t y, si_t width , si_t height
 	return ;
 }
 
-
-
+extern void icon_set_color(struct icon* ic, struct color* fcolor, struct color* bcolor)
+{
+    widget_set_color(WIDGET_POINTER(ic), fcolor, bcolor);
+}

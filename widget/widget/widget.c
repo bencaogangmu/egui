@@ -254,7 +254,7 @@ void *widget_init(si_t id)
 void *widget_init_common(struct widget *addr, si_t id)
 {
     /* 申请图形设备 */
-    addr->gd = graphics_device_init(0, 0, 0, 0, 0, 0 ,0 ,0 ,0);
+    addr->gd = graphics_device_init(0, 0, 0, 0, 255, 255 ,255 ,0 ,0);
 
     /* 申请失败 */
     if(addr->gd == 0)

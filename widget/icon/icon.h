@@ -145,5 +145,6 @@ extern si_t icon_default_mouse_press(struct icon* ic , union message * msg);
 
 
 extern si_t icon_default_mouse_release(struct icon* ic , union message * msg);
+extern void icon_set_color(struct icon* ic, struct color* fcolor, struct color* bcolor);
 
 # endif

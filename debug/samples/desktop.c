@@ -79,14 +79,27 @@ si_t icon_calc_callback(void * ic, void * msg)
 
 	 union message * m = msg;
 	 switch(m->base.type)
-	 {
-		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
-         		  pthread_create(&tid,NULL,calc_app,NULL);
-            		  break;
-		default:
-			  icon_default_callback(ic,msg);
-			  break;
-	 }
+    {
+    case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+        //pthread_create(&tid,NULL,calc_app,NULL);
+        icon_set_color(ic,NULL,&xue_blue);
+        icon_repaint(ic);
+        /*for(i = 0; i < APP_NUMBER; i++)
+        {
+            if(ic[i] != ico)
+            {
+                icon_set_color(ic[i],NULL,&white);
+                icon_repaint(ic[i]);
+            }
+        }*/
+        break;
+    case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK:
+        pthread_create(&tid,NULL,calc_app,NULL);
+        break;
+    default:
+        icon_default_callback(ic,msg);
+        break;
+    }
   return 0;
 
 }
@@ -96,14 +109,27 @@ si_t icon_file_callback(void * ic, void * msg)
 
 	 union message * m = msg;
 	 switch(m->base.type)
-	 {
-		 case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
-			  pthread_create(&tid,NULL,file_app,NULL);
-			  break;
-		default:
-			  icon_default_callback(ic,msg);
-			  break;
-	 }
+    {
+    case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+        //pthread_create(&tid,NULL,calc_app,NULL);
+        icon_set_color(ic,NULL,&xue_blue);
+        icon_repaint(ic);
+        /*for(i = 0; i < APP_NUMBER; i++)
+        {
+            if(ic[i] != ico)
+            {
+                icon_set_color(ic[i],NULL,&white);
+                icon_repaint(ic[i]);
+            }
+        }*/
+        break;
+    case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK:
+        pthread_create(&tid,NULL,file_app,NULL);
+        break;
+    default:
+        icon_default_callback(ic,msg);
+        break;
+    }
   return 0;
 
 }
@@ -114,14 +140,27 @@ si_t icon_game_callback(void * ic, void * msg)
 
 	 union message * m = msg;
 	 switch(m->base.type)
-	 {
-		 case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
-			  pthread_create(&tid,NULL,game_app,NULL);
-			  break;
-		default:
-			  icon_default_callback(ic,msg);
-			  break;
-	 }
+    {
+    case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+        //pthread_create(&tid,NULL,calc_app,NULL);
+        icon_set_color(ic,NULL,&xue_blue);
+        icon_repaint(ic);
+        /*/for(i = 0; i < APP_NUMBER; i++)
+        {
+            if(ic[i] != ico)
+            {
+                icon_set_color(ic[i],NULL,&white);
+                icon_repaint(ic[i]);
+            }
+        }*/
+        break;
+    case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK:
+        pthread_create(&tid,NULL,game_app,NULL);
+        break;
+    default:
+        icon_default_callback(ic,msg);
+        break;
+    }
   return 0;
 
 }
@@ -131,14 +170,27 @@ si_t icon_sin_callback(void * ic, void * msg)
 
 	 union message * m = msg;
 	 switch(m->base.type)
-	 {
-		 case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
-			  pthread_create(&tid,NULL,sin_app,NULL);
-			  break;
-		default:
-			  icon_default_callback(ic,msg);
-			  break;
-	 }
+    {
+    case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+        //pthread_create(&tid,NULL,calc_app,NULL);
+        icon_set_color(ic,NULL,&xue_blue);
+        icon_repaint(ic);
+        /*for(i = 0; i < APP_NUMBER; i++)
+        {
+            if(ic[i] != ico)
+            {
+                icon_set_color(ic[i],NULL,&white);
+                icon_repaint(ic[i]);
+            }
+        }*/
+        break;
+    case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK:
+        pthread_create(&tid,NULL,sin_app,NULL);
+        break;
+    default:
+        icon_default_callback(ic,msg);
+        break;
+    }
   return 0;
 
 }
@@ -148,14 +200,27 @@ si_t icon_pop_callback(void * ic, void * msg)
 
 	 union message * m = msg;
 	 switch(m->base.type)
-	 {
-		 case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
-			  pthread_create(&tid,NULL,pop_app,NULL);
-			  break;
-		default:
-			  icon_default_callback(ic,msg);
-			  break;
-	 }
+    {
+    case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+        //pthread_create(&tid,NULL,calc_app,NULL);
+        icon_set_color(ic,NULL,&xue_blue);
+        icon_repaint(ic);
+        /*for(i = 0; i < APP_NUMBER; i++)
+        {
+            if(ic[i] != ico)
+            {
+                icon_set_color(ic[i],NULL,&white);
+                icon_repaint(ic[i]);
+            }
+        }*/
+        break;
+    case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK:
+        pthread_create(&tid,NULL,pop_app,NULL);
+        break;
+    default:
+        icon_default_callback(ic,msg);
+        break;
+    }
   return 0;
 
 }
@@ -165,14 +230,27 @@ si_t icon_end_callback(void * ic, void * msg)
 
 	 union message * m = msg;
 	 switch(m->base.type)
-	 {
-		 case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
-			  pthread_create(&tid,NULL,end_app,NULL);
-			  break;
-		default:
-			  icon_default_callback(ic,msg);
-			  break;
-	 }
+    {
+    case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+        //pthread_create(&tid,NULL,calc_app,NULL);
+        icon_set_color(ic,NULL,&xue_blue);
+        icon_repaint(ic);
+        /*for(i = 0; i < APP_NUMBER; i++)
+        {
+            if(ic[i] != ico)
+            {
+                icon_set_color(ic[i],NULL,&white);
+                icon_repaint(ic[i]);
+            }
+        }*/
+        break;
+    case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK:
+        pthread_create(&tid,NULL,end_app,NULL);
+        break;
+    default:
+        icon_default_callback(ic,msg);
+        break;
+    }
   return 0;
 
 }
@@ -230,12 +308,12 @@ int main()
         	application_exit();
         	return -1;
     	}
-    	ic[i]->back_color.r = 0;
-    	ic[i]->back_color.g = 100;
-    	ic[i]->back_color.b = 0;
-    	ic[i]->back_color.a = 0;
-    	icon_set_bounds(ic[i] ,30,(i+1)*100,48,48);
-    	icon_set_is_text_visiable(ic[i] ,0);
+    	ic[i]->back_color.r = 255;
+        ic[i]->back_color.g = 255;
+        ic[i]->back_color.b = 255;
+        ic[i]->back_color.a = 0;
+        icon_set_bounds(ic[i] ,30,(i+1)*100,55,55);
+        icon_set_is_text_visiable(ic[i] ,0);
     }
     /* 第一个是计算器 */
 	icon_set_text(ic[0],"calc");

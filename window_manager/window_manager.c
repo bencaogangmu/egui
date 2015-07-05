@@ -507,7 +507,7 @@ si_t window_manager_init()
 		return -1;
 	}
 
-	if(0 != event_init(1000))
+	if(0 != event_init(500000))
 	{
 		EGUI_PRINT_ERROR("failed to init event module");
 		return -1;
