@@ -501,7 +501,7 @@ handle_widget_resize
     return 0;
 }
 
-static si_t
+extern si_t
 handle_window_activate
 (union message * msg)
 {
@@ -546,7 +546,7 @@ handle_window_activate
 }
 
 
-static si_t
+extern si_t
 handle_window_deactivate
 (union message * msg)
 {
@@ -630,7 +630,8 @@ handle_window_cancel
     /* 如果要关闭主窗口 */
     if(global_application.main_window == WINDOW_POINTER(w))
     {
-        application_del_window(WINDOW_POINTER(w));
+         cancel_window(WINDOW_POINTER(w)->descriptor);//change
+         application_del_window(WINDOW_POINTER(w));
     }
     else
     {
@@ -650,15 +651,18 @@ handle_window_cancel
             application_widgets_for_each_increament(do_dispatch_repaint_event_to_all, NULL);
         }
     }
-
     return 0;
 }
+
+
+
 
 static void application_handle_message(union message* msg)
 {
 	/**
 	 * 如果是桌面程序 那么首先将消息发给桌面的回调函数处理
 	 **/
+	
 	if(global_application.application_type & APPLICATION_TYPE_DESKTOP)
 	{
 		if(global_application.desktop_msg_handler != NULL)
@@ -666,7 +670,7 @@ static void application_handle_message(union message* msg)
 			global_application.desktop_msg_handler(global_application.desktop_ptr, msg);
 		}
 	}
-
+	
     switch(msg->base.type)
     {
     case MESSAGE_TYPE_KEYBD_PRESS:

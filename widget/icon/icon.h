@@ -62,11 +62,14 @@
 struct icon
 {
     ICON_DEFINITION
-	char  img_path[255];
+	char img_path[255];
+	char img_normal_path[255]; 
+	char img_select_path[255];
 	char  text[255];
 	/* see the enum icon_type */
 	si_t type;
 	si_t is_text_visiable;
+	si_t flag;
 	
 	struct rectangle text_field;
 	struct rectangle img_field;
@@ -81,6 +84,12 @@ struct icon
 
 extern void  icon_set_img_path(struct icon *ic, char * img_path);
 extern char* icon_get_img_path(struct icon *ic);
+
+extern void  icon_set_img_normal_path(struct icon *ic, char * img_path);
+extern char* icon_get_img_normal_path(struct icon *ic);
+
+extern void  icon_set_img_select_path(struct icon *ic, char * img_path);
+extern char* icon_get_img_select_path(struct icon *ic);
 
 extern void  icon_set_text(struct icon *ic, char * text);
 extern char* icon_get_text(struct icon *ic);
@@ -145,6 +154,5 @@ extern si_t icon_default_mouse_press(struct icon* ic , union message * msg);
 
 
 extern si_t icon_default_mouse_release(struct icon* ic , union message * msg);
-extern void icon_set_color(struct icon* ic, struct color* fcolor, struct color* bcolor);
 
 # endif

@@ -242,11 +242,11 @@ extern si_t send_window_close_message(struct egui_uds* uds_ptr, union message* m
 	return comm_send_message(uds_ptr, &msg_to_be_sent);
 }
 
-extern si_t send_window_register_message(struct egui_uds* uds_ptr, union message* msg, si_t window_descripter)
+extern si_t send_window_register_message(struct egui_uds* uds_ptr, union message* msg, si_t window_descripter, char* t)
 {
 	union message msg_to_be_sent;
 	copy_message(msg, &msg_to_be_sent);
-	message_set_window_register(&msg_to_be_sent, window_descripter);
+	message_set_window_register(&msg_to_be_sent, window_descripter, t);
 	return comm_send_message(uds_ptr, &msg_to_be_sent);
 }
 
@@ -255,6 +255,14 @@ extern si_t send_window_cancel_message(struct egui_uds* uds_ptr, union message* 
 	union message msg_to_be_sent;
 	copy_message(msg, &msg_to_be_sent);
 	message_set_window_cancel(&msg_to_be_sent, window_descripter);
+	return comm_send_message(uds_ptr, &msg_to_be_sent);
+}
+
+extern si_t send_app_window_cancel_message(struct egui_uds* uds_ptr, union message* msg, si_t window_descripter)
+{
+	union message msg_to_be_sent;
+	copy_message(msg, &msg_to_be_sent);
+	message_set_app_window_cancel(&msg_to_be_sent, window_descripter);
 	return comm_send_message(uds_ptr, &msg_to_be_sent);
 }
 
@@ -332,6 +340,24 @@ static si_t _server_lib_handle_request(addr_t body, si_t detail_type, union resp
 			respond_set_normal(respond_ptr, RESPOND_TYPE_GRAPHICS_DEVICE_EXIT, func_ret);
 		}
 		break;
+		/**
+		 * 获得屏幕尺寸
+		 **/
+	case REQUEST_TYPE_GET_SCREEN_SIZE_W:
+		{
+			
+			func_ret = global_screen.width;
+			respond_set_normal(respond_ptr, RESPOND_TYPE_GET_SCREEN_SIZE_W, func_ret);
+		}
+		break;
+	case REQUEST_TYPE_GET_SCREEN_SIZE_H:
+		{
+			
+			func_ret = global_screen.height;
+			respond_set_normal(respond_ptr, RESPOND_TYPE_GET_SCREEN_SIZE_H, func_ret);
+		}
+		break;
+				
 		/**
 		 * 接到window_manager_quit命令 若成功执行则返回退出循环的
 		 **/

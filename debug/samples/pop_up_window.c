@@ -51,7 +51,7 @@ button_callback
     {
         case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
             /* 申请窗口 */
-            w = window_init("pop_up_window");
+            w = window_init("son_window");
             /* 申请失败 */
             if(w == NULL)
             {
@@ -61,7 +61,7 @@ button_callback
 			window_set_bounds(w, 100, 100, 300, 100);
 			window_set_color(w, NULL, &barely_blue);
 
-            /* 添加顶层窗口 */
+            /* 添加子窗口 */
             application_add_window(NULL, w);
             break;
 
@@ -73,22 +73,20 @@ button_callback
     return 0;
 }
 
-/*
-    测试 button
-*/
+
+
 int main()
 {
     si_t video_access_mode = VIDEO_ACCESS_MODE_BUFFER;
 	si_t app_type = APPLICATION_TYPE_NORMAL;
     struct window * w = NULL;
     struct button * b = NULL;
-    struct image_view * im;
 
     /* 初始化用户应用程序 */
     application_init(video_access_mode, app_type, "pop_up_window");
 
     /* 申请窗口 */
-    w = window_init("root window");
+    w = window_init("pop_up");
     /* 申请失败 */
     if(w == NULL)
     {
@@ -106,30 +104,12 @@ int main()
         application_exit();
         return -1;
     }
-	button_set_bounds(b, 50, 50, 150, 50);
+	button_set_bounds(b, 50, 50, 100, 50);
 	button_set_color(b, NULL, &barely_blue);
     b->callback = button_callback;
     
-    
-    	/* 画背景图片 */
-   im = image_view_init("/home/wang/egui/resource/icons/desktop/nature.bmp");
-   if(im == NULL)
-    {
-        application_exit();
-        return -1;
-    }
-	if(NULL == im)
-	{
-		application_exit();
-		return -1;
-	}
-	image_view_set_bounds(im,0,0, 450 , 200);
-	object_attach_child(OBJECT_POINTER(w), OBJECT_POINTER(im));
-	
-	
-
-    /* 将两个按钮添加到窗口 */
-    object_attach_child(OBJECT_POINTER(im), OBJECT_POINTER(b));
+	/* 添加button */   
+	object_attach_child(OBJECT_POINTER(w), OBJECT_POINTER(b));
 
     /* 添加顶层窗口 */
     application_add_window(NULL, w);

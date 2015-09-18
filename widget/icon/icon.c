@@ -75,7 +75,10 @@ void *icon_init(si_t id)
 	addr->text_field.height = 0;
 
 	addr->is_text_visiable = 0;
+	addr->flag = 0;
 	memset(addr->img_path , 0 ,sizeof(char)*255);
+	memset(addr->img_normal_path , 0 ,sizeof(char)*255);
+	memset(addr->img_select_path , 0 ,sizeof(char)*255);
 	memset(addr->text , 0, sizeof(char)*255);
     /* 默认的回调函数 */
     addr->callback = icon_default_callback;
@@ -121,9 +124,10 @@ si_t   icon_update_all_areas ( struct icon * ic )
 		ic->text_field.width = area.width;
 		ic->text_field.height = text_line_num * font_height ;
 
-		ic->img_field.x = area.x + area.width/4 ;
+		ic->img_field.x = area.x  ;
+		//ic->img_field.x = area.x + area.width/4 ;
 		ic->img_field.y = area.y  ;
-		ic->img_field.width = area.width/2 ;
+		ic->img_field.width = area.width ;
 		ic->img_field.height = area.height - ic->text_field.height;
 
 	}
@@ -235,12 +239,31 @@ icon_exit
 void  icon_set_img_path(struct icon *ic, char * img_path)
 {
 	strcpy(ic->img_path,img_path);
-	return ;
 }
 char* icon_get_img_path(struct icon *ic)
 {
 	return ic->img_path;
 }
+
+void  icon_set_img_normal_path(struct icon *ic, char * img_path)
+{
+	strcpy(ic->img_normal_path,img_path);
+	return ;
+}
+char* icon_get_img_normal_path(struct icon *ic)
+{
+	return ic->img_normal_path;
+}
+void  icon_set_img_select_path(struct icon *ic, char * img_path)
+{
+	strcpy(ic->img_select_path,img_path);
+	return ;
+}
+char* icon_get_img_select_path(struct icon *ic)
+{
+	return ic->img_select_path;
+}
+
 void  icon_set_text(struct icon *ic, char * text)
 {
 	strcpy(ic->text, text);
@@ -320,7 +343,6 @@ si_t icon_repaint(struct icon * ic)
     msg.widget_repaint.area.height = ic->area.height;
 
     icon_default_widget_repaint(ic, &msg);
-	widget_repaint(WIDGET_POINTER(ic));
 
     return 0;
 
@@ -405,17 +427,26 @@ si_t icon_default_mouse_press(struct icon* ic , union message * msg)
 }
 
 
+void icon_set_bounds(struct icon* icon, si_t x, si_t y, si_t width , si_t height)
+{
+	icon->area.x = x;
+	icon->area.y = y;
+	icon->area.width = width;
+	icon->area.height = height;
+	return ;
+}
+
 /* 图标被按下后，应该能够显示四周边框,Color:black，其他的特效，待完成。
- * 因此，需要将画笔的颜色设置为黑色
+ * 因此，需要将画笔的颜色设置为白色
  *
  **/
 si_t icon_default_mouse_release(struct icon* ic , union message * msg)
 {
 	struct rectangle area;
-	NOT_USED(msg);
+	//NOT_USED(msg);
 
 	application_widget_absolute_area(WIDGET_POINTER(ic), &area);
-
+	
     /* 设置区域 */
     set_area(ic->gd, area.x, area.y, area.width, area.height);
 
@@ -438,16 +469,5 @@ si_t icon_default_mouse_release(struct icon* ic , union message * msg)
 
 }
 
-void icon_set_bounds(struct icon* icon, si_t x, si_t y, si_t width , si_t height)
-{
-	icon->area.x = x;
-	icon->area.y = y;
-	icon->area.width = width;
-	icon->area.height = height;
-	return ;
-}
 
-extern void icon_set_color(struct icon* ic, struct color* fcolor, struct color* bcolor)
-{
-    widget_set_color(WIDGET_POINTER(ic), fcolor, bcolor);
-}
+

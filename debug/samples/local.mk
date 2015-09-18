@@ -8,9 +8,9 @@ noinst_PROGRAMS += %D%/multi_windows\
 				   %D%/editerbasic\
 				   %D%/timer\
 				   %D%/text_clock\
-				   %D%/tab\
-				   %D%/chess_game\
-				   %D%/desktop
+			   	   %D%/tab\
+		   		   %D%/game
+
 
 %C%_multi_windows_SOURCES = %D%/multi_windows.c
 %C%_shutdown_SOURCES = %D%/shutdown.c
@@ -21,8 +21,9 @@ noinst_PROGRAMS += %D%/multi_windows\
 %C%_timer_SOURCES = %D%/timer.c
 %C%_text_clock_SOURCES = %D%/text_clock.c
 %C%_tab_SOURCES = %D%/tab.c
-%C%_chess_game_SOURCES = %D%/chess_game.c
-%C%_desktop_SOURCES = %D%/desktop.c
+%C%_game_SOURCES = %D%/game.c
+
+
 
 %C%_multi_windows_LDADD = $(debug_samples_LDADD_TEMP)
 %C%_shutdown_LDADD = $(debug_samples_LDADD_TEMP)
@@ -33,8 +34,10 @@ noinst_PROGRAMS += %D%/multi_windows\
 %C%_timer_LDADD = $(debug_samples_LDADD_TEMP)
 %C%_text_clock_LDADD = $(debug_samples_LDADD_TEMP)
 %C%_tab_LDADD = $(debug_samples_LDADD_TEMP)
-%C%_chess_game_LDADD = $(debug_samples_LDADD_TEMP)
-%C%_desktop_LDADD = $(debug_samples_LDADD_TEMP)
+%C%_game_LDADD = $(debug_samples_LDADD_TEMP)
+
+
 
 include $(top_srcdir)/debug/samples/calculator/local.mk
 include $(top_srcdir)/debug/samples/file_browser/local.mk
+include $(top_srcdir)/debug/samples/Desktop/local.mk

@@ -21,7 +21,6 @@ ACLOCAL_AMFLAGS= -I m4
 
 AM_CPPFLAGS=@AM_CPPFLAGS@ -DPACKAGE_DATA_PATH="\"$(resourcedir)\"" \
 			-DPACKAGE_SRC_PATH="\"$(abs_top_srcdir)\""
-LDFLAGS='-pthread'
 
 include $(top_srcdir)/resource/local.mk
 include $(top_srcdir)/include/local.mk

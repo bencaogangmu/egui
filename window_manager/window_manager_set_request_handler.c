@@ -100,8 +100,8 @@ static si_t cancel_application_handler(addr_t app_ptr)
 
 	/** 在桌面注销窗口 **/
 	
-    /*n = vector_size(&(app_info_ptr->window_info_vector));
-    for(i = 0; i < n; ++ i)
+    n = vector_size(&(app_info_ptr->window_info_vector));
+   /* for(i = 0; i < n; ++ i)
     {
         struct object* tree = (struct object*)vector_at(&(app_info_ptr->window_info_vector), i);
 */
@@ -252,6 +252,7 @@ static si_t desktop_dirty_handler(addr_t app_ptr)
 	 **/
 	if(APPLICATION_TYPE_DESKTOP == app_info_ptr->application_type)
 	{
+		screen_flush(0, 0, global_screen.width, global_screen.height);
 		return flush_in_z_order(0, 0, global_screen.width, global_screen.height);
 	}
 	return -1;
@@ -323,12 +324,15 @@ static si_t activate_window_handler(addr_t app_ptr, si_t window_descripter)
         {
             /* 发送激死消息给原来的活动窗口 */
 			send_window_deactivate_message(&global_wm.active_app_info_ptr->uds, NULL, (si_t)global_wm.active_win_info_ptr);
+
 			/** 通知桌面 **/
-			/*if(NULL != global_wm.desktop_app_ptr)
+			/*
+			if(NULL != global_wm.desktop_app_ptr)
 			{
 				send_window_deactivate_message(&global_wm.desktop_app_ptr->uds, NULL,
 					(si_t)object_get_root(OBJECT_POINTER(global_wm.active_win_info_ptr)));
-			}*/
+			}
+			*/
 
             /* 改变活动窗口 */
             global_wm.active_win_info_ptr = NULL;
@@ -346,15 +350,18 @@ static si_t activate_window_handler(addr_t app_ptr, si_t window_descripter)
             /* 发送激死消息给原来的活动窗口 */
 			send_window_deactivate_message(&global_wm.active_app_info_ptr->uds, NULL, (si_t)global_wm.active_win_info_ptr);
 			/** 通知桌面 **/
-			/*if(NULL != global_wm.desktop_app_ptr)
+			/*
+			if(NULL != global_wm.desktop_app_ptr)
 			{
 				send_window_deactivate_message(&global_wm.desktop_app_ptr->uds, NULL,
 					(si_t)object_get_root(OBJECT_POINTER(global_wm.active_win_info_ptr)));
-			}*/
+			}
+			*/
         }
 
         /* 将活动窗口移动到该用户应用程序的窗口向量的尾部 */
-        vector_move_back(&(app_info_ptr->window_info_vector), iter.win_index);
+        vector_move_back(&(app_info_ptr->window_info_vector), iter.win_index); //changed
+        vector_move_back(&(iter.app_info_ptr->window_info_vector), iter.win_index); 
 
         /* 将活动程序移动到用户应用程序向量的尾部 */
         vector_move_back(&(global_wm.application_info_vector), iter.app_index);
@@ -366,11 +373,13 @@ static si_t activate_window_handler(addr_t app_ptr, si_t window_descripter)
         global_wm.active_app_info_ptr = iter.app_info_ptr;
 
 		send_window_activate_message(&global_wm.active_app_info_ptr->uds, NULL, (si_t)iter.top_win_info_ptr);
-		/*if(NULL != global_wm.desktop_app_ptr)
+		/*
+		if(NULL != global_wm.desktop_app_ptr)
 		{
 			send_window_activate_message(&global_wm.desktop_app_ptr->uds, NULL,
 				(si_t)object_get_root(OBJECT_POINTER(iter.top_win_info_ptr)));
-		}*/
+		}
+		*/
     }
 
 	return 0;
@@ -421,10 +430,12 @@ static si_t register_window_handler(addr_t app_ptr, si_t parent_descripter, char
 
 		/* 将窗口的信息添加到向量 */
 		vector_push_back(&(app_info_ptr->window_info_vector), &root, sizeof(struct object));
-/*		if(NULL != global_wm.desktop_app_ptr)
+		win_info_ptr->parent = vector_back(&(app_info_ptr->window_info_vector));	//9/14改
+		//
+		if(NULL != global_wm.desktop_app_ptr && app_info_ptr != global_wm.desktop_app_ptr) 
 		{
-			send_window_register_message(&global_wm.desktop_app_ptr->uds, NULL, (si_t)win_info_ptr);
-		}*/
+			send_window_register_message(&global_wm.desktop_app_ptr->uds, NULL, (si_t)win_info_ptr, win_info_ptr->title);
+		}
 		win_info_ptr->parent = vector_back(&(app_info_ptr->window_info_vector));
 	}
 	/**
@@ -435,10 +446,10 @@ static si_t register_window_handler(addr_t app_ptr, si_t parent_descripter, char
 		object_insert_child(OBJECT_POINTER(parent_descripter), OBJECT_POINTER(win_info_ptr));
 	}
 
-	/*if(global_wm.active_win_info_ptr != NULL && global_wm.active_app_info_ptr != NULL)
+	if(global_wm.active_win_info_ptr != NULL && global_wm.active_app_info_ptr != NULL)
 	{
 		send_window_deactivate_message(&global_wm.active_app_info_ptr->uds, NULL, (si_t)global_wm.active_win_info_ptr);
-	}*/
+	}
 
 	/* 最近创建的窗口是活动窗口 */
 	global_wm.active_win_info_ptr = win_info_ptr;
@@ -506,14 +517,14 @@ static si_t cancel_window_handler(addr_t app_ptr, si_t window_descripter)
 		return 0;
 
 	/* 如果是顶层窗口则发送消息给桌面 */
-	/*
+	
 	if(NULL != global_wm.desktop_app_ptr && (si_t)window_descripter == (si_t)iter.top_win_info_ptr)
 	{
-		send_window_cancel_message(&global_wm.desktop_app_ptr->uds, NULL, window_descripter);
+		send_app_window_cancel_message(&global_wm.desktop_app_ptr->uds, NULL, window_descripter);
 	}
-*/
+
 	/* 更新活动用户应用程序和活动窗口 */
-	if((si_t)global_wm.active_win_info_ptr == window_descripter || global_wm.active_app_info_ptr == app_info_ptr)
+	//if((si_t)global_wm.active_win_info_ptr == window_descripter || global_wm.active_app_info_ptr == app_info_ptr)
 	{
 		global_wm.active_win_info_ptr = NULL;
 		global_wm.active_app_info_ptr = NULL;

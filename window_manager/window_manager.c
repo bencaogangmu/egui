@@ -36,7 +36,6 @@
 #include <fcntl.h>
 #include <dirent.h>
 #include <sys/stat.h>
-#include <pthread.h>
 
 #include "application_info.h"
 #include "window_info.h"
@@ -392,17 +391,12 @@ static void graph_exit()
 	engine_graphics_device_exit(global_wm.gd_handler);
 }
 
-static void *thrd_func(void *arg)
-{
-    system("bash /home/wang/egui/_build/debug/samples/desktop");
-    pthread_exit(NULL);
-}
 /**
  *  初始化欢迎界面
  **/
 static si_t interface_init()
 {
-    pthread_t tid;
+	
 	struct graphics_device* gd_ptr = NULL;
     gd = engine_graphics_device_init(0 ,0 , global_screen.width, global_screen.height, 255,255,0,0,7);
 	if(0 == gd)
@@ -421,21 +415,26 @@ static si_t interface_init()
     engine_draw_polygon(gd,p,4) ;
     screen_flush(0,0,gd_ptr->screen.width,gd_ptr->screen.height);
     
-	sleep(1);
 	engine_draw_circle(gd,6*global_screen.width/14,9*global_screen.height/16,5);
     screen_flush(0,0,gd_ptr->screen.width,gd_ptr->screen.height);
 
-	sleep(1);
+	usleep(500000);
 	engine_draw_circle(gd,7*global_screen.width/14,9*global_screen.height/16,5);
     screen_flush(0,0,gd_ptr->screen.width,gd_ptr->screen.height);
     
-	sleep(1);
+	usleep(500000);
 	engine_draw_circle(gd,8*global_screen.width/14,9*global_screen.height/16,5);
     screen_flush(0,0,gd_ptr->screen.width,gd_ptr->screen.height);
     
-    sleep(1);
+    usleep(500000);
     //engine_clear(gd);
-    pthread_create(&tid,NULL,thrd_func,NULL);
+    
+	pid_t id;
+	id = fork();
+	if(id == 0){
+		execl("/home/wang/egui/_bulid/debug/samples/Desktop/Desktop","./Desktop",NULL);
+	}
+	
     return 0;
 }
 
@@ -507,7 +506,7 @@ si_t window_manager_init()
 		return -1;
 	}
 
-	if(0 != event_init(500000))
+	if(0 != event_init(300000))		//双击识别为0.3秒
 	{
 		EGUI_PRINT_ERROR("failed to init event module");
 		return -1;
