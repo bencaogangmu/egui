@@ -78,35 +78,35 @@ void sin_app(){
 	pid_t id;
 	id = fork();
 	if(id == 0){
-		execl("/home/wang/egui/_bulid/debug/samples/single_window","./single_window",NULL);
+		execl("/home/wang/egui/_build/debug/samples/single_window","./single_window",NULL);
 	}
 }
 void pop_app(){
 	pid_t id;
 	id = fork();
 	if(id == 0){
-		execl("/home/wang/egui/_bulid/debug/samples/pop_up_window","./pop_up_window",NULL);
+		execl("/home/wang/egui/_build/debug/samples/pop_up_window","./pop_up_window",NULL);
 	}
 }
 void calc_app(){
 	pid_t id;
 	id = fork();
 	if(id == 0){
-		execl("/home/wang/egui/_bulid/debug/samples/calculator/calculator","./calculator",NULL);
+		execl("/home/wang/egui/_build/debug/samples/calculator/calculator","./calculator",NULL);
 	}
 }
 void game_app(){
 	pid_t id;
 	id = fork();
 	if(id == 0){
-		execl("/home/wang/egui/_bulid/debug/samples/game","./game",NULL);
+		execl("/home/wang/egui/_build/debug/samples/game","./game",NULL);
 	}
 }
 void file_app(){
 	pid_t id;
 	id = fork();
 	if(id == 0){
-		execl("/home/wang/egui/_bulid/debug/samples/file_browser/file_browser","./file_browser",NULL);
+		execl("/home/wang/egui/_build/debug/samples/file_browser/file_browser","./file_browser",NULL);
 	}
 }
 
@@ -114,7 +114,7 @@ void end_app(){
 	pid_t id;
 	id = fork();
 	if(id == 0){
-		execl("/home/wang/egui/_bulid/debug/samples/shutdown","./shutdown",NULL);
+		execl("/home/wang/egui/_build/debug/samples/shutdown","./shutdown",NULL);
 	}
 }
 
