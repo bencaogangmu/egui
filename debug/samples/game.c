@@ -70,7 +70,7 @@ button_callback
 	struct button * b = btn;
 	struct button * b1 = btn;
 	int n=b->fore_color.r;
-	if(message_get_type(msg)==MESSAGE_TYPE_MOUSE_SINGLE_CLICK){
+	if(message_get_type(msg)==MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT){
 		switch(n){
 			case 5:case 6:case 9:case 10:
 				bbc[n]=(bbc[n]+1)%2;bbc[n+1]=(bbc[n+1]+1)%2;bbc[n-1]=(bbc[n-1]+1)%2;		

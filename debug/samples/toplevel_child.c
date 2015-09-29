@@ -40,9 +40,16 @@ button_callback
  void * msg)
 {
     switch(message_get_type(msg)) {
-        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT:
             puts("hello world!");
             break;
+
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID:
+            break;
+
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:
+            break;
+
         default:
             button_default_callback(btn, msg);
             break;

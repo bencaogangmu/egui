@@ -204,7 +204,7 @@ si_t save_button_callback(void* btn, void* msg)
     union message* m = (union message*)msg;
     switch(m->base.type)
     {
-    case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+    case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT:
 		if(0 == save_file(file_label->text, text_line_get_buf(file_context_text_line)))
 		{
     		sprintf(log_label->text, "save successfully!");
@@ -215,6 +215,13 @@ si_t save_button_callback(void* btn, void* msg)
 		}
 
         break;
+
+    case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID:
+	break;
+
+    case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:
+	break;
+
     default:
         button_default_callback(btn, msg);
         return 0;
@@ -230,7 +237,7 @@ si_t save_window_ok_button_callback(void* btn, void* msg)
     union message* m = (union message*)msg;
 	switch(m->base.type)
 	{
-    case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+    case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT:
 		if(0 == save_file(text_line_get_buf(save_text_line), text_line_get_buf(file_context_text_line)))
 		{
 			sprintf(log_label->text, "save successfully!");
@@ -244,6 +251,13 @@ si_t save_window_ok_button_callback(void* btn, void* msg)
 		save_window = NULL;
 		save_text_line = NULL;
 		break;
+
+    case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID:
+		break;
+
+    case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:
+		break;
+
     default:
         button_default_callback(btn, msg);
         return 0;
@@ -260,7 +274,7 @@ si_t save_as_button_callback(void* btn, void* msg)
 	struct button* b = NULL;
 	switch(m->base.type)
 	{
-	case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+	case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT:
 		if(NULL == save_window)
 		{
 			save_window = window_init("save window");
@@ -306,6 +320,13 @@ si_t save_as_button_callback(void* btn, void* msg)
 		{
 			EGUI_PRINT_ERROR("save window already open!");
 		}
+
+	case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID:
+		break;
+
+	case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:
+		break;
+
 	default:
 		button_default_callback(btn, msg);
 	}

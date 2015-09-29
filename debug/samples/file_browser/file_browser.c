@@ -209,7 +209,7 @@ button1_callback
 
     switch(m->base.type)
     {
-        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT:
 
                 chdir("..");
 
@@ -233,6 +233,12 @@ button1_callback
 
             break;
 
+	case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID:
+	    break;
+
+	case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:
+	    break;
+
         default:
             button_default_callback(btn, msg);
             break;
@@ -252,7 +258,7 @@ button2_callback
 
     switch(m->base.type)
     {
-        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT:
             if(mw->start > 0)
             {
                 -- (mw->start);
@@ -262,6 +268,12 @@ button2_callback
             }
 
             break;
+
+	case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID:
+	    break;
+
+	case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:
+	    break;
 
         default:
             button_default_callback(btn, msg);
@@ -281,7 +293,7 @@ button3_callback
 
     switch(m->base.type)
     {
-        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT:
             if(mw->start + mw->count < vector_size(&file_list))
             {
                 ++ (mw->start);
@@ -291,6 +303,12 @@ button3_callback
             }
 
             break;
+
+	case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID:
+	    break;
+
+	case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:
+	    break;
 
         default:
             button_default_callback(btn, msg);

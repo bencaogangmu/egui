@@ -603,7 +603,12 @@ static si_t deal_with_event(struct input_device * self, struct list* msg_list)
 
             memcpy(&click_message, &msg, sizeof(union message));
 
-            click_message.mouse.type = MESSAGE_TYPE_MOUSE_SINGLE_CLICK;
+            if(msg.mouse.code == INPUT_CODE_MOUSE_L_KEY)
+                click_message.mouse.type = MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT;
+            else if(mouse_click.m_key == INPUT_CODE_MOUSE_M_KEY)
+                click_message.mouse.type = MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID;
+            else
+                click_message.mouse.type = MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT;
 
             list_push_back(msg_list, &click_message, sizeof(union message));
         }
@@ -622,13 +627,24 @@ static si_t deal_with_event(struct input_device * self, struct list* msg_list)
                 /* 在规定的时间内 */
                 if(difference.tv_sec == 0 && difference.tv_usec < mouse_double_click_delay)
                 {
-                    click_message.mouse.type = MESSAGE_TYPE_MOUSE_DOUBLE_CLICK;
+                    if(msg.mouse.code == INPUT_CODE_MOUSE_L_KEY)
+                        click_message.mouse.type = MESSAGE_TYPE_MOUSE_DOUBLE_CLICK_LEFT;
+                    else if(mouse_click.m_key == INPUT_CODE_MOUSE_M_KEY)
+                        click_message.mouse.type = MESSAGE_TYPE_MOUSE_DOUBLE_CLICK_MID;
+                    else
+                        click_message.mouse.type = MESSAGE_TYPE_MOUSE_DOUBLE_CLICK_RIGHT;
 
                     mouse_click.has_previous_click = 0;
                 }
                 else
                 {
-                    click_message.mouse.type = MESSAGE_TYPE_MOUSE_SINGLE_CLICK;
+                    if(msg.mouse.code == INPUT_CODE_MOUSE_L_KEY)
+                        click_message.mouse.type = MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT;
+                    else if(mouse_click.m_key == INPUT_CODE_MOUSE_M_KEY)
+                        click_message.mouse.type = MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID;
+                    else
+                        click_message.mouse.type = MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT;
+
                     mouse_previous_click_time = msg.mouse.time;
                 }
 
@@ -642,7 +658,12 @@ static si_t deal_with_event(struct input_device * self, struct list* msg_list)
 
                 memcpy(&click_message, &msg, sizeof(union message));
 
-                click_message.mouse.type = MESSAGE_TYPE_MOUSE_SINGLE_CLICK;
+                if(msg.mouse.code == INPUT_CODE_MOUSE_L_KEY)
+                    click_message.mouse.type = MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT;
+                else if(mouse_click.m_key == INPUT_CODE_MOUSE_M_KEY)
+                    click_message.mouse.type = MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID;
+                else
+                    click_message.mouse.type = MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT;
 
                 list_push_back(msg_list, &click_message, sizeof(union message));
             }

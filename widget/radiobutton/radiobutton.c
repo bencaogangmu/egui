@@ -193,11 +193,15 @@ si_t radiobutton_default_callback(addr_t self, addr_t msg)
         case MESSAGE_TYPE_WIDGET_SHOW:
             radiobutton_default_widget_show(b, m);
             break;
-        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT:
             radiobutton_select(b, m);
             if(b->click_callback) {
                 b->click_callback(b->group_name, b->user_data);
             }
+            break;
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID:
+            break;
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:
             break;
         default:
             break;

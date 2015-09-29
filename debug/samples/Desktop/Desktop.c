@@ -135,7 +135,7 @@ si_t icon_calc_callback(void * ic, void * msg)
 			 
 		}
 			break;
-		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT:
 		{
 			if(ic_ptr->flag==0){
 				for(int i=0;i<APP_NUMBER;i++){
@@ -165,12 +165,25 @@ si_t icon_calc_callback(void * ic, void * msg)
 			
 		}
 			break;
+
+		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID:
+			break;
+
+		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:
+			break;
 	
-		case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK:
+		case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK_LEFT:
 			icon_set_img_path(ic_ptr, ic_ptr->img_normal_path);
 			ic_ptr->flag=0;
 			calc_app();
 			break;
+
+		case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK_MID:
+			break;
+
+		case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK_RIGHT:
+			break;
+
 		default:
 			icon_default_callback(ic,msg);
 			break;
@@ -195,7 +208,7 @@ si_t icon_file_callback(void * ic, void * msg)
 			 
 		}
 			break;
-		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT:
 		{
 			if(ic_ptr->flag==0){
 				for(int i=0;i<APP_NUMBER;i++){
@@ -225,12 +238,25 @@ si_t icon_file_callback(void * ic, void * msg)
 			
 		}
 			break;
+
+		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID:
+			break;
+
+		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:
+			break;
 	
-		case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK:
+		case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK_LEFT:
 			icon_set_img_path(ic_ptr, ic_ptr->img_normal_path);
 			ic_ptr->flag=0;
 			file_app();
 			break;
+
+		case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK_MID:
+			break;
+
+		case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK_RIGHT:
+			break;
+
 		default:
 			icon_default_callback(ic,msg);
 			break;
@@ -255,7 +281,7 @@ si_t icon_game_callback(void * ic, void * msg)
 			 
 		}
 			break;
-		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT:
 		{
 			if(ic_ptr->flag==0){
 				for(int i=0;i<APP_NUMBER;i++){
@@ -285,12 +311,25 @@ si_t icon_game_callback(void * ic, void * msg)
 			
 		}
 			break;
+
+		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID:
+			break;
+
+		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:
+			break;
 	
-		case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK:
+		case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK_LEFT:
 			icon_set_img_path(ic_ptr, ic_ptr->img_normal_path);
 			ic_ptr->flag=0;
 			game_app();
 			break;
+
+		case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK_MID:
+			break;
+
+		case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK_RIGHT:
+			break;
+
 		default:
 			icon_default_callback(ic,msg);
 			break;
@@ -315,7 +354,7 @@ si_t icon_sin_callback(void * ic, void * msg)
 			 
 		}
 			break;
-		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT:
 		{
 			if(ic_ptr->flag==0){
 				for(int i=0;i<APP_NUMBER;i++){
@@ -345,12 +384,25 @@ si_t icon_sin_callback(void * ic, void * msg)
 			
 		}
 			break;
+
+		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID:
+			break;
+
+		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:
+			break;
 	
-		case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK:
+		case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK_LEFT:
 			icon_set_img_path(ic_ptr, ic_ptr->img_normal_path);
 			ic_ptr->flag=0;
 			sin_app();
 			break;
+
+		case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK_MID:
+			break;
+
+		case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK_RIGHT:
+			break;
+
 		default:
 			icon_default_callback(ic,msg);
 			break;
@@ -375,7 +427,7 @@ si_t icon_pop_callback(void * ic, void * msg)
 			 
 		}
 			break;
-		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT:
 		{
 			if(ic_ptr->flag==0){
 				for(int i=0;i<APP_NUMBER;i++){
@@ -405,12 +457,25 @@ si_t icon_pop_callback(void * ic, void * msg)
 			
 		}
 			break;
+
+		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID:
+			break;
+
+		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:
+			break;
 	
-		case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK:
+		case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK_LEFT:
 			icon_set_img_path(ic_ptr, ic_ptr->img_normal_path);
 			ic_ptr->flag=0;
 			pop_app();
 			break;
+
+		case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK_MID:
+			break;
+
+		case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK_RIGHT:
+			break;
+
 		default:
 			icon_default_callback(ic,msg);
 			break;
@@ -435,7 +500,7 @@ si_t icon_end_callback(void * ic, void * msg)
 			 
 		}
 			break;
-		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT:
 		{
 			if(ic_ptr->flag==0){
 				for(int i=0;i<APP_NUMBER;i++){
@@ -465,12 +530,25 @@ si_t icon_end_callback(void * ic, void * msg)
 			
 		}
 			break;
+
+		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID:
+			break;
+
+		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:
+			break;
 	
-		case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK:
+		case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK_LEFT:
 			icon_set_img_path(ic_ptr, ic_ptr->img_normal_path);
 			ic_ptr->flag=0;
 			end_app();
 			break;
+
+		case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK_MID:
+			break;
+
+		case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK_RIGHT:
+			break;
+
 		default:
 			icon_default_callback(ic,msg);
 			break;
@@ -528,7 +606,7 @@ void desktop_handler(addr_t arg, union message* msg)
 		 }
 			break;
 		/* 任务栏的激活处理 */
-		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT:
 		{
 			struct point* point_ptr=message_get_cursor_position(msg);
 			si_t x=point_ptr->x, y=point_ptr->y;
@@ -540,6 +618,12 @@ void desktop_handler(addr_t arg, union message* msg)
 
 		}
 		break;
+
+		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID:
+			break;
+
+		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:
+			break;
 
 		/* 有程序启动时记录并添加到任务栏 */
 		case MESSAGE_TYPE_WINDOW_REGISTER:

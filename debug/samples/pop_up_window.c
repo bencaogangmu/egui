@@ -49,7 +49,7 @@ button_callback
 
     switch(message_get_type(msg))
     {
-        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT:
             /* 申请窗口 */
             w = window_init("son_window");
             /* 申请失败 */
@@ -64,6 +64,12 @@ button_callback
             /* 添加子窗口 */
             application_add_window(NULL, w);
             break;
+
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID:
+	    break;
+
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:
+	    break;
 
         default:
             button_default_callback(btn, msg);

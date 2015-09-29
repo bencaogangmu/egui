@@ -107,7 +107,7 @@ si_t button_operand_callback(void * btn, void * msg)
 
     switch(m->base.type)
     {
-        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT:
             /*
             printf("%lX single click\n", (si_t)b);
             */
@@ -141,6 +141,12 @@ si_t button_operand_callback(void * btn, void * msg)
 
             break;
 
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID:
+	    break;
+
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:
+	    break;
+
         default:
             button_default_callback(btn, msg);
             break;
@@ -161,7 +167,7 @@ si_t button_operator_callback(void * btn, void * msg)
 	error_flag = 0;
     switch(m->base.type)
     {
-        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT:
             /*
             printf("%lX single click\n", (si_t)b);
             */
@@ -253,6 +259,12 @@ si_t button_operator_callback(void * btn, void * msg)
 
             break;
 
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID:
+	    break;
+
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:
+	    break;
+
         default:
             button_default_callback(btn, msg);
             break;
@@ -272,7 +284,7 @@ si_t button_special_callback(void *btn , void *msg)
 
 	switch(m->base.type)
 	{
-		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT:
 			if(b->text[1] == 'S')
 			{
 				memcpy(memory,l->text,11);
@@ -310,6 +322,13 @@ si_t button_special_callback(void *btn , void *msg)
 				printf("MC Done --> now memory=%d\n",atoi(memory));
 			}
 			break;
+
+		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID:
+			break;
+
+		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:
+			break;
+
 		default:
 			button_default_callback(btn,msg);
 			break;
@@ -323,7 +342,7 @@ si_t button_clear_callback(void * btn, void * msg)
 
     switch(m->base.type)
     {
-        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT:
             /*
             printf("%lX single click\n", (si_t)b);
             */
@@ -338,6 +357,13 @@ si_t button_clear_callback(void * btn, void * msg)
 
             label_repaint(l);
             label_show(l);
+	    break;
+
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID:
+	    break;
+
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:
+	    break;
 
         default:
             button_default_callback(btn, msg);

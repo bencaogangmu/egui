@@ -171,13 +171,17 @@ si_t checkbox_default_callback(addr_t self, addr_t msg)
         case MESSAGE_TYPE_WIDGET_SHOW:
             checkbox_default_widget_show(b, m);
             break;
-        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT:
             checkbox_toggle(b);
             checkbox_default_widget_repaint(b, m);
             checkbox_default_widget_show(b, m);
             if(b->click_callback) {
                 b->click_callback(b->user_data);
             }
+            break;
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID:
+            break;
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:
             break;
         default:
             break;

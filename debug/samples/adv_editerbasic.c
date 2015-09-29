@@ -157,10 +157,17 @@ si_t save_window_button_callback(void* btn, void* msg)
 	char str[] = "save successfully";
 	switch(m->base.type)
 	{
-	case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+	case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT:
 		save_file(text_line_get_buf(ta), text_line_get_buf(tb), l->text);
 
 		break;
+
+	case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID:
+		break;
+
+	case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:
+		break;
+
 	default:
 		button_default_callback(btn, msg);
 		return 0;
@@ -227,12 +234,19 @@ si_t open_window_button_callback(void * btn, void *msg )
 	union message * m = (union message*)msg;
 	switch(	m->base.type)
 	{
-	case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+	case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT:
 		{
 			char * file_path = text_line_get_buf(ta);
 			open_file_pop_window(file_path);
 			break;
 		}
+
+	case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID:
+			break;
+
+	case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:
+			break;
+
 	default:
 		button_default_callback(btn, msg);
 

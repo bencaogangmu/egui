@@ -185,8 +185,12 @@ static si_t spinbox_button_callback(addr_t self, addr_t msg)
         delta = 1;
     }
     switch(m->base.type) {
-        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT:
             spinbox_value_change(SPINBOX_POINTER(b->custom_data), delta);
+            break;
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID:
+            break;
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:
             break;
         default:
             return button_default_callback(self, msg);

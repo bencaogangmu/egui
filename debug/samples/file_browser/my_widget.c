@@ -532,12 +532,24 @@ my_widget_default_callback
             my_widget_default_widget_show(mw, m);
             break;
 
-        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT:
             //my_widget_default_mouse_single_click(mw, m);
             break;
+
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID:
+            break;
+
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:
+            break;
         
-        case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK:
+        case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK_LEFT:
             my_widget_default_mouse_double_click(mw, m);
+            break;
+
+        case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK_MID:
+            break;
+
+        case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK_RIGHT:
             break;
 
         case MESSAGE_TYPE_WINDOW_CLOSE:

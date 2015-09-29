@@ -1,6 +1,7 @@
 （默认将egui文件夹放在主目录下）
 安装步骤：
 	1. 在egui/目录下,执行autoreconf -fi
+	   ./resource/install-resource-dev.sh
 	2. mkdir _bulid
 	   cd _bulid
 	   ../configure

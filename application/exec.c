@@ -697,11 +697,15 @@ static void application_handle_message(union message* msg)
         handle_mouse_release(msg);
         break;
 
-    case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+    case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT:   
+    case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID:
+    case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:
         handle_mouse_single_click(msg);
         break;
 
-    case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK:
+    case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK_LEFT:
+    case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK_MID:
+    case MESSAGE_TYPE_MOUSE_DOUBLE_CLICK_RIGHT:
         handle_mouse_double_click(msg);
         break;
 

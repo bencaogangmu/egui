@@ -46,9 +46,14 @@ button_callback
 
     switch(m->base.type)
     {
-        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK:
+        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT:
             printf("%lX single click\n", (si_t)b);
+            break;
 
+	case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID:
+            break;
+
+	case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:
             break;
 
         default:
