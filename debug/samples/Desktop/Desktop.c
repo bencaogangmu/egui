@@ -41,10 +41,9 @@
 
 # include "desktop.h"
 # include "taskbar.h"
-#define APP_NUMBER 6
+# include "right_click_menu.h"
 
-
-
+const si_t APP_NUMBER=6;
 
 struct window * Desktop_w = NULL;
 struct image_view * Desktop_im;
@@ -53,8 +52,6 @@ struct icon** ic_desktop_ptr;
 struct timeval* last_do_time;
 /* 初始化任务栏状态 */
 si_t bar_num=0;
-
-
 
 si_t diff_timeval(struct timeval * t1, struct timeval * t2, struct timeval * result)
 {
@@ -71,8 +68,6 @@ si_t diff_timeval(struct timeval * t1, struct timeval * t2, struct timeval * res
 
     return 0;
 }
-
-
 
 void sin_app(){
 	pid_t id;
@@ -563,7 +558,7 @@ void desktop_handler(addr_t arg, union message* msg)
 	struct desktop_info* desktop_info_ptr = (struct desktop_info*)arg;
 	si_t window_descripter = message_get_window_descriptor(msg);	
 	/* 初始化 */
-	static flag = 0;
+	static si_t flag = 0;
 	if(flag == 0){
 		desktop_info_init(desktop_info_ptr);
 		flag = 1;
@@ -590,7 +585,7 @@ void desktop_handler(addr_t arg, union message* msg)
 					else{
 			  				struct point new_point = msg->base.cursor_position;
               				//icon_set_bounds(ic_desktop_ptr[0],200,200,48,64);
-			 				icon_set_bounds(ic_desktop_ptr[find_num],new_point.x, new_point.y, 48, 64);
+			 				icon_set_bounds(ic_desktop_ptr[find_num],new_point.x, new_point.y-30, 48, 64);
 			  				/* 桌面刷新重绘 */
 			  				image_view_reshow(Desktop_im);
   			  				/* 所有图标重绘 */
@@ -602,7 +597,9 @@ void desktop_handler(addr_t arg, union message* msg)
 							struct timeval default_time = {0};
 							last_do_time[find_num]=default_time;
 					}
-				}		  
+				}	
+				/*右键菜单取消*/
+				right_click_menu_cancel();	  
 		 }
 			break;
 		/* 任务栏的激活处理 */
@@ -615,14 +612,16 @@ void desktop_handler(addr_t arg, union message* msg)
 				struct window_info * win_info_ptr = (struct window_info *) vector_at(&(desktop_info_ptr->window_info_vector),i);
 				activate_window(win_info_ptr->window_descripter);
 			} 
-
 		}
 		break;
 
 		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID:
+			/*右键菜单取消*/
+			right_click_menu_cancel();
 			break;
 
-		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:
+		case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:			
+			right_click_menu_handle(msg);
 			break;
 
 		/* 有程序启动时记录并添加到任务栏 */
@@ -772,6 +771,8 @@ int main()
     for(i=0;i<APP_NUMBER;i++)
     	object_attach_child(OBJECT_POINTER(Desktop_im), OBJECT_POINTER(ic_desktop_ptr[i]));
    
+     /* 右键菜单初始化 */
+     right_click_menu_init();
 
 
 
