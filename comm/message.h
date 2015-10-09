@@ -67,7 +67,7 @@ enum __message_type__
     MESSAGE_TYPE_KEYBD_CLICK,
 
     /** 鼠标移动 **/
-    MESSAGE_TYPE_MOUSE_MOVE,
+    MESSAGE_TYPE_MOUSE_MOVE,  //5
     /** 鼠标绝对坐标移动（与上面的区别类似 結標淡希 和 白井黒子） **/
     MESSAGE_TYPE_MOUSE_MOVE_POINT,
     /** 鼠标进入一个区域 **/
@@ -77,14 +77,14 @@ enum __message_type__
     /** 鼠标的键按下 **/
     MESSAGE_TYPE_MOUSE_PRESS,
     /** 鼠标的键释放 **/
-    MESSAGE_TYPE_MOUSE_RELEASE,
+    MESSAGE_TYPE_MOUSE_RELEASE,  //10
     /** 鼠标单击 **/
-    MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT,
+    MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT, 
     MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID,
     MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT,
     /** 鼠标双击 **/
     MESSAGE_TYPE_MOUSE_DOUBLE_CLICK_LEFT,
-    MESSAGE_TYPE_MOUSE_DOUBLE_CLICK_MID,
+    MESSAGE_TYPE_MOUSE_DOUBLE_CLICK_MID,  //15
     MESSAGE_TYPE_MOUSE_DOUBLE_CLICK_RIGHT,
 
     /** 窗口绘制消息 **/
@@ -94,7 +94,7 @@ enum __message_type__
     /** 窗口部件移动 **/
     MESSAGE_TYPE_WIDGET_MOVE,
     /** 窗口部件改变大小 **/
-    MESSAGE_TYPE_WIDGET_RESIZE,
+    MESSAGE_TYPE_WIDGET_RESIZE,   //20
 
     /** 窗口激活 **/
     MESSAGE_TYPE_WINDOW_ACTIVATE,
@@ -105,7 +105,7 @@ enum __message_type__
     /** 关闭窗口 **/
     MESSAGE_TYPE_WINDOW_CLOSE,
     /** 最大化窗口 **/
-    MESSAGE_TYPE_WINDOW_MAXIMIZE,
+    MESSAGE_TYPE_WINDOW_MAXIMIZE,  //25
     /** 最小化窗口 **/
     MESSAGE_TYPE_WINDOW_MINIMIZE,
     /** 还原窗口 **/
@@ -115,7 +115,7 @@ enum __message_type__
 	/* 取消窗口：仅适用于桌面 **/
 	MESSAGE_TYPE_WINDOW_CANCEL,
 	/** 在桌面注销APP窗口相关 **/
-    MESSAGE_TYPE_APP_WINDOW_CANCEL,
+    MESSAGE_TYPE_APP_WINDOW_CANCEL,   //30
 	/* 程序退出 */
 	MESSAGE_TYPE_APPLICATION_QUIT,
 

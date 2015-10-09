@@ -26,6 +26,14 @@
  *
  * All rights reserved.
 **/
+#include <sys/stat.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include<time.h>
+#include<sys/types.h>
+#include<unistd.h>
+#include <string.h>
+
 # include "right_click_menu.h"
 
 /* 右键菜单 */
@@ -40,6 +48,51 @@ extern struct image_view * Desktop_im;
 extern const si_t APP_NUMBER;
 extern struct icon** ic_desktop_ptr;
 
+void create_new_folder(){ 
+    si_t i=0;
+    byte_t str[100]="NEW FOLDER";
+    byte_t cpy[100]="NEW FOLDER";
+    byte_t temp_str[100];
+    while(access(str,0)!=-1){//access函数是查看文件是不是存在
+    	strcpy(str,cpy);
+    	i++;
+    	sprintf(temp_str, "%d", i);
+    	strcat(str,temp_str);
+    }
+    if (mkdir(str,0777)) {//如果不存在就用mkdir函数来创建
+    	printf("creat folder failed!!!");
+    }
+}
+
+void create_new_file(){
+    si_t i=0;
+    byte_t pathname[100] = {"MAIN/NEW\ FILE"};
+    byte_t cpy[100]= {"MAIN/NEW\ FILE"};
+    byte_t temp_str[100];
+    
+    if(access("MAIN",0)==-1){//access函数是查看文件是不是存在
+		if (mkdir("MAIN",0777)) {//如果不存在就用mkdir函数来创建
+			printf("creat folder failed!!!");
+		}
+    }
+
+    while(access(pathname,0)!=-1){//access函数是查看文件是不是存在
+		strcpy(pathname,cpy);
+		i++;
+		sprintf(temp_str, "%d", i);
+		strcat(pathname,temp_str);
+    }
+    
+    FILE  *fp;
+    if((fp=fopen(pathname,"w"))==NULL)//打开文件 没有就创建
+    {
+        printf("文件还未创建!\n");
+    }
+
+    fprintf(fp,"创建成功");
+    fclose(fp);
+}
+
 si_t
 right_click_menu_NEW_FOLDER
 (void * bt,
@@ -47,14 +100,9 @@ right_click_menu_NEW_FOLDER
 {
     switch(message_get_type(msg))
     {
-        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT:
-            break;
-
-        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID:
-	    break;
-
-        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:
-	    break;
+    	case MESSAGE_TYPE_MOUSE_PRESS:
+            create_new_folder();
+    	    break;
 
         default:
             button_default_callback(bt, msg);
@@ -70,14 +118,9 @@ right_click_menu_NEW_FILE
 {
     switch(message_get_type(msg))
     {
-        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT:
-            break;
-
-        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID:
-	    break;
-
-        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:
-	    break;
+    	case MESSAGE_TYPE_MOUSE_PRESS:
+            create_new_file();
+    	    break;
 
         default:
             button_default_callback(bt, msg);
@@ -93,15 +136,9 @@ right_click_menu_FLUSH
 {
     switch(message_get_type(msg))
     {
-        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_LEFT:
-	    desktop_flush();
-            break;
-
-        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_MID:
-	    break;
-
-        case MESSAGE_TYPE_MOUSE_SINGLE_CLICK_RIGHT:
-	    break;
+    	case MESSAGE_TYPE_MOUSE_PRESS:
+    	    desktop_flush();
+    	    break;
 
         default:
             button_default_callback(bt, msg);

@@ -599,7 +599,7 @@ void desktop_handler(addr_t arg, union message* msg)
 					}
 				}	
 				/*右键菜单取消*/
-				right_click_menu_cancel();	  
+				right_click_menu_cancel();  
 		 }
 			break;
 		/* 任务栏的激活处理 */
@@ -611,7 +611,7 @@ void desktop_handler(addr_t arg, union message* msg)
 				int i=(x-80)/80;
 				struct window_info * win_info_ptr = (struct window_info *) vector_at(&(desktop_info_ptr->window_info_vector),i);
 				activate_window(win_info_ptr->window_descripter);
-			} 
+			} 	
 		}
 		break;
 
